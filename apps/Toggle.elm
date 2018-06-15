@@ -1,16 +1,13 @@
-import Html exposing (Html, button, div, text, program)
+import Html exposing (Html, button, div, text, beginnerProgram)
 import Html.Events exposing (onClick)
 
--- You can think of Model as if it were local state in a React component
 type alias Model = Bool
-init : ( Model, Cmd Msg )
-init = ( False, Cmd.none )
+model : Bool
+model = False
 
--- Sort of like an action in Redux
-type Msg = Toggle
+type Action = Toggle
 
--- View is like the render method in a React component
-view : Model -> Html Msg
+view : Model -> Html Action
 view model =
     div []
         [
@@ -18,19 +15,17 @@ view model =
             if model then text "True" else text "False"
         ]
 
--- Reducer
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Action -> Model -> Model
 update msg model =
     case msg of
         Toggle ->
-            ( not model, Cmd.none )
+            not model
 
-main : Program Never Model Msg
+main : Program Never Model Action
 main =
-    program 
+    beginnerProgram 
     { 
-        init = init, 
+        model = model,
         view = view,
-        update = update,
-        subscriptions = always Sub.none
+        update = update
     }
